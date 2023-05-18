@@ -22,8 +22,8 @@ appendCommitMessageToRunName:
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCloud'
-    organization: 'devops-fundacion-tarea-at'
-    projectKey: 'Devops-Fundacion-Tarea-AT_microservicio-spring'
+    organization: 'aatosco'
+    projectKey: 'aatosco_microservicio-spring'
     projectName: 'microservicio-spring'
     scannerMode: 'Other'
   displayName: 'SonarCloud Prepare'
