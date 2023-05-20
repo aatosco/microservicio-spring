@@ -15,8 +15,6 @@ stages:
           vmImage: 'ubuntu-latest'
         steps:
 
-
-
           - task: Gradle@3
             inputs:
               gradleWrapperFile: 'gradlew'
@@ -55,6 +53,7 @@ stages:
               sqGradlePluginVersionChoice: 'specify'
               sonarQubeGradlePluginVersion: '3.3'
               spotBugsAnalysis: false
+            displayName: 'Gradle Sonarcloud'
 
           - task: Docker@2
             inputs:
