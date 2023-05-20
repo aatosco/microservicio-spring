@@ -6,8 +6,11 @@
 trigger:
 - feature-ms-abrahamTosco-mensaje
 
-pool:
-  vmImage: ubuntu-latest
+jobs:
+  job:
+  pool:
+    vmImage: 'ubuntu-latest'
+  displayName: Build
 
 steps:
 - task: SonarCloudPrepare@1
