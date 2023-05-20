@@ -24,7 +24,9 @@ stages:
               publishJUnitResults: true
               testResultsFiles: '**/TEST-*.xml'
               javaHomeOption: 'JDKVersion'
-              sonarQubeRunAnalysis: false
+              sonarQubeRunAnalysis: true
+              sqGradlePluginVersionChoice: 'specify'
+              sonarQubeGradlePluginVersion: '3.3'
               spotBugsAnalysis: false
             displayName: 'Compilacion/Build'
 
@@ -45,16 +47,16 @@ stages:
               projectName: 'microservicio-spring'
             displayName: 'SonarCloud Prepare'
 
-          - task: Gradle@3
-            inputs:
-              gradleWrapperFile: 'gradlew'
-              tasks: 'sonarqube'
-              publishJUnitResults: false
-              javaHomeOption: 'JDKVersion'
-              sonarQubeRunAnalysis: true
-              sqGradlePluginVersionChoice: 'specify'
-              sonarQubeGradlePluginVersion: '3.3'
-              spotBugsAnalysis: false
+#          - task: Gradle@3
+#            inputs:
+#              gradleWrapperFile: 'gradlew'
+#              tasks: 'sonarqube'
+#              publishJUnitResults: false
+#              javaHomeOption: 'JDKVersion'
+#              sonarQubeRunAnalysis: true
+#              sqGradlePluginVersionChoice: 'specify'
+#              sonarQubeGradlePluginVersion: '3.3'
+#              spotBugsAnalysis: false
 
           - task: Docker@2
             inputs:
