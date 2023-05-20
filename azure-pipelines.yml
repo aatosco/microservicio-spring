@@ -23,13 +23,6 @@ steps:
     spotBugsAnalysis: false
   displayName: 'Compilacion/Build'
 
-- script: |
-    echo "El archivo .jar se encuentra en la siguiente ruta: "
-    find $(Build.SourcesDirectory) -name "*.jar"
-  displayName: 'Mostrar ubicación del archivo .jar'
-
-
-
 #- task: SonarCloudPrepare@1
 #  inputs:
 #    SonarCloud: 'SonarCloud'
