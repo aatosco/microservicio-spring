@@ -27,7 +27,7 @@ jacocoTestReport {
 }
 
 jacocoTestCoverageVerification {
-  dependsOn jacocoTestReport
+	dependsOn jacocoTestReport
 	violationRules {
 		rule {
 		limit {
