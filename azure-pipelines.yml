@@ -95,7 +95,7 @@ stages:
               script: |
                 Start-Process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
               displayName: 'kubectl port-forward'
-              continueOnError: 'true'
+              continueOnError: 'false'
 
 
 
@@ -103,19 +103,10 @@ stages:
     displayName: 'Jmeter Stage'
     dependsOn: Deploy
     jobs:
-      - job: Deploy_Job
+      - job: JMeter_Job
 #        pool: 'Default'
         steps:
-          - task: Kubernetes@1
-            inputs:
-              connectionType: 'None'
-              command: 'create'
-              arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:72'
+          - script: jmeter -n -t microservicio-spring.jmx -l resultados.jtl
 
-          - task: PowerShell@2
-            inputs:
-              targetType: 'inline'
-              script: |
-                Start-Process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
-              displayName: 'kubectl port-forward'
-              continueOnError: 'false'
+
+#-  script: jmeter -n -t microservicio-spring.jmx -l resultados.jtl
