@@ -51,8 +51,7 @@ stages:
     dependsOn: BuildAndDocker
     jobs:
       - job: DeployJob
-        pool:
-          vmImage: 'ubuntu-latest'
+        pool: 'Default'
         steps:
           - task: Kubernetes@1
             inputs:
