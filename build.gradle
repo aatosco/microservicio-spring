@@ -27,16 +27,15 @@ jacocoTestReport {
 }
 
 jacocoTestCoverageVerification {
-	dependsOn jacocoTestReport
+  dependsOn jacocoTestCoverageVerification
 	violationRules {
 		rule {
 		limit {
 			minimum = 0.50
-      	}
-    	}
-  	}
+			}
+		}
+	}
 }
-
 
 test {
 	useJUnitPlatform()
