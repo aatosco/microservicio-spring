@@ -17,7 +17,7 @@ stages:
           - task: Gradle@3
             inputs:
               gradleWrapperFile: 'gradlew'
-              tasks: 'build jacocoTestReport'
+              tasks: 'build jacocoTestReport jacocoTestCoverageVerification'
               publishJUnitResults: true
               testResultsFiles: '**/TEST-*.xml'
               javaHomeOption: 'JDKVersion'
