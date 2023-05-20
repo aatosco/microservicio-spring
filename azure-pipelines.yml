@@ -21,7 +21,7 @@ steps:
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
     spotBugsAnalysis: false
-    displayName: Build
+    displayName: 'Compilacion_Build'
 
 
 
