@@ -10,7 +10,7 @@ stages:
   - stage: Build_TestCobertura_PushDocker
     displayName: 'Build_TestCobertura_PushDocker Stage'
     jobs:
-      - job: Build_TestCobertura_PushDocker
+      - job: Build_TestCobertura_PushDocker_Job
         pool:
           vmImage: 'ubuntu-latest'
         steps:
@@ -80,7 +80,7 @@ stages:
     displayName: 'Deploy Stage'
     dependsOn: Build_TestCobertura_PushDocker
     jobs:
-      - job: DeployJob
+      - job: Deploy_Job
         pool: 'Default'
         steps:
           - task: Kubernetes@1
@@ -88,5 +88,13 @@ stages:
               connectionType: 'None'
               command: 'create'
               arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:72'
+
+#          - task: PowerShell@2
+#              inputs:
+#                targetType: 'inline'
+#                script: |
+#                  Start-Process "kubectl" -ArgumentList "port-forward service/lab-service 8080:8080" -WindowStyle Hidden
+#              displayName: 'kubectl port-forward'
+#              continueOnError: true
 
 #          - script: kubectl port-forward deployment/microservicio-spring 8088:8080 -d
