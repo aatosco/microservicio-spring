@@ -9,25 +9,37 @@ trigger:
 
 pool:
  vmImage: ubuntu-latest
- displayName: Build
 
 steps:
-
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'SonarCloud'
-    organization: 'aatosco'
-    projectKey: 'aatosco_microservicio-spring'
-    projectName: 'microservicio-spring'
-    displayName: 'SonarCloud Prepare'
 
 - task: Gradle@3
   inputs:
     gradleWrapperFile: 'gradlew'
-    tasks: 'sonarqube'
-    publishJUnitResults: false
+    tasks: 'build'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
-    sonarQubeRunAnalysis: true
-    sqGradlePluginVersionChoice: 'specify'
-    sonarQubeGradlePluginVersion: '3.3'
+    sonarQubeRunAnalysis: false
     spotBugsAnalysis: false
+    displayName: Build
+
+
+
+#- task: SonarCloudPrepare@1
+#  inputs:
+#    SonarCloud: 'SonarCloud'
+#    organization: 'aatosco'
+#    projectKey: 'aatosco_microservicio-spring'
+#    projectName: 'microservicio-spring'
+#    displayName: 'SonarCloud Prepare'
+
+#- task: Gradle@3
+#  inputs:
+#    gradleWrapperFile: 'gradlew'
+#    tasks: 'sonarqube'
+#    publishJUnitResults: false
+#    javaHomeOption: 'JDKVersion'
+#    sonarQubeRunAnalysis: true
+#    sqGradlePluginVersionChoice: 'specify'
+#    sonarQubeGradlePluginVersion: '3.3'
+#    spotBugsAnalysis: false
