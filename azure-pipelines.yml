@@ -7,10 +7,10 @@ trigger:
   - feature-ms-abrahamTosco-mensaje
 
 stages:
-  - stage: BuildAndDocker
-    displayName: 'Build and Docker Stage'
+  - stage: Build_TestCobertura_PushDocker
+    displayName: 'Build_TestCobertura_PushDocker Stage'
     jobs:
-      - job: BuildAndDockerJob
+      - job: Build_TestCobertura_PushDocker
         pool:
           vmImage: 'ubuntu-latest'
         steps:
@@ -35,7 +35,26 @@ stages:
               pathToSources: '$(System.DefaultWorkingDirectory)/src/main/java/'
               reportDirectory: '$(System.DefaultWorkingDirectory)/build/reports/jacoco/test'
               failIfCoverageEmpty: true
+            displayName: 'Resultado Cobertura Codigo'
 
+          - task: SonarCloudPrepare@1
+            inputs:
+              SonarCloud: 'SonarCloud'
+              organization: 'aatosco'
+              projectKey: 'aatosco_microservicio-spring'
+              projectName: 'microservicio-spring'
+            displayName: 'SonarCloud Prepare'
+
+          - task: Gradle@3
+            inputs:
+              gradleWrapperFile: 'gradlew'
+              tasks: 'sonarqube'
+              publishJUnitResults: false
+              javaHomeOption: 'JDKVersion'
+              sonarQubeRunAnalysis: true
+              sqGradlePluginVersionChoice: 'specify'
+              sonarQubeGradlePluginVersion: '3.3'
+              spotBugsAnalysis: false
 
           - task: Docker@2
             inputs:
@@ -60,7 +79,7 @@ stages:
 
   - stage: Deploy
     displayName: 'Deploy Stage'
-    dependsOn: BuildAndDocker
+    dependsOn: Build_TestCobertura_PushDocker
     jobs:
       - job: DeployJob
         pool: 'Default'
