@@ -59,4 +59,4 @@ stages:
               command: 'create'
               arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:65'
 
-          - script: kubectl port-forward deployment/microservicio-spring 8082:8085
+          - script: kubectl port-forward deployment/microservicio-spring 8080:8080
