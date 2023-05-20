@@ -4,80 +4,70 @@
 # https://aka.ms/yaml
 
 trigger:
-- feature-ms-abrahamTosco-mensaje
+  - feature-ms-abrahamTosco-mensaje
 
-jobs:
-- job:
-  pool:
-    vmImage: 'ubuntu-latest'
-  displayName: Build
+stages:
+  - stage: Build
+    displayName: 'Build Stage'
+    jobs:
+      - job: BuildJob
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: Gradle@3
+            inputs:
+              gradleWrapperFile: 'gradlew'
+              tasks: 'build'
+              publishJUnitResults: true
+              testResultsFiles: '**/TEST-*.xml'
+              javaHomeOption: 'JDKVersion'
+              sonarQubeRunAnalysis: false
+              spotBugsAnalysis: false
+            displayName: 'Compilacion/Build'
 
-  steps:
+  - stage: Docker
+    displayName: 'Docker Stage'
+    dependsOn: Build
+    jobs:
+      - job: DockerJob
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'DockerHub'
+              command: 'login'
+            displayName: 'Login_Docker'
 
-  - task: Gradle@3
-    inputs:
-      gradleWrapperFile: 'gradlew'
-      tasks: 'build'
-      publishJUnitResults: true
-      testResultsFiles: '**/TEST-*.xml'
-      javaHomeOption: 'JDKVersion'
-      sonarQubeRunAnalysis: false
-      spotBugsAnalysis: false
-    displayName: 'Compilacion/Build'
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'DockerHub'
+              repository: 'aatosco/microservicio-spring'
+              command: 'build'
+              Dockerfile: '**/Dockerfile'
+            displayName: 'Build_Imagen_Docker'
 
-#- task: SonarCloudPrepare@1
-#  inputs:
-#    SonarCloud: 'SonarCloud'
-#    organization: 'aatosco'
-#    projectKey: 'aatosco_microservicio-spring'
-#    projectName: 'microservicio-spring'
-#    displayName: 'SonarCloud Prepare'
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'DockerHub'
+              repository: 'aatosco/microservicio-spring'
+              command: 'push'
+            displayName: 'Push_Imagen_Docker'
 
-#- task: Gradle@3
-#  inputs:
-#    gradleWrapperFile: 'gradlew'
-#    tasks: 'sonarqube'
-#    publishJUnitResults: false
-#    javaHomeOption: 'JDKVersion'
-#    sonarQubeRunAnalysis: true
-#    sqGradlePluginVersionChoice: 'specify'
-#    sonarQubeGradlePluginVersion: '3.3'
-#    spotBugsAnalysis: false
+  - stage: Deploy
+    displayName: 'Deploy Stage'
+    dependsOn: Docker
+    jobs:
+      - job: DeployJob
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: Kubernetes@1
+            inputs:
+              connectionType: 'None'
+              command: 'create'
+              arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:latest'
 
+          - script: kubectl port-forward deployment/microservicio-spring 8082:8085
 
-  - task: Docker@2
-    inputs:
-      containerRegistry: 'DockerHub'
-      command: 'login'
-    displayName: 'Login_Docker'
-
-
-  - task: Docker@2
-    inputs:
-      containerRegistry: 'DockerHub'
-      repository: 'aatosco/microservicio-spring'
-      command: 'build'
-      Dockerfile: '**/Dockerfile'
-    displayName: 'Build_Imagen_Docker'
-
-
-  - task: Docker@2
-    inputs:
-      containerRegistry: 'DockerHub'
-      repository: 'aatosco/microservicio-spring'
-      command: 'push'
-    displayName: 'Push_Imagen_Docker'
-
-
-
-- job: 
-  pool: 'Default'
-  steps:
-  - task: Kubernetes@1
-    inputs:
-      connectionType: 'None'
-      command: 'create'
-      arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring'
-
-  - script: kubectl port-forward deployment/microservicio-spring 8082:8085
 
