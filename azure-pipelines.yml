@@ -8,7 +8,7 @@ trigger:
 
 stages:
   - stage: Build_TestCobertura_PushDocker
-    displayName: 'Build_TestCobertura_PushDocker'
+    displayName: 'Build_TestCobertura_PushDocker Stage'
     jobs:
       - job: Build_TestCobertura_PushDocker
         pool:
@@ -79,7 +79,7 @@ stages:
 
   - stage: Deploy
     displayName: 'Deploy Stage'
-    dependsOn: BuildAndDocker
+    dependsOn: Build_TestCobertura_PushDocker
     jobs:
       - job: DeployJob
         pool: 'Default'
