@@ -7,10 +7,10 @@ trigger:
   - feature-ms-abrahamTosco-mensaje
 
 stages:
-  - stage: Build
-    displayName: 'Build Stage'
+  - stage: BuildAndDocker
+    displayName: 'Build and Docker Stage'
     jobs:
-      - job: BuildJob
+      - job: BuildAndDockerJob
         pool:
           vmImage: 'ubuntu-latest'
         steps:
@@ -25,14 +25,6 @@ stages:
               spotBugsAnalysis: false
             displayName: 'Compilacion/Build'
 
-  - stage: Docker
-    displayName: 'Docker Stage'
-    dependsOn: Build
-    jobs:
-      - job: DockerJob
-        pool:
-          vmImage: 'ubuntu-latest'
-        steps:
           - task: Docker@2
             inputs:
               containerRegistry: 'DockerHub'
@@ -56,7 +48,7 @@ stages:
 
   - stage: Deploy
     displayName: 'Deploy Stage'
-    dependsOn: Docker
+    dependsOn: BuildAndDocker
     jobs:
       - job: DeployJob
         pool:
@@ -69,5 +61,3 @@ stages:
               arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:latest'
 
           - script: kubectl port-forward deployment/microservicio-spring 8082:8085
-
-
