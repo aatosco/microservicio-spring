@@ -57,6 +57,6 @@ stages:
             inputs:
               connectionType: 'None'
               command: 'create'
-              arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:65'
+              arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:69'
 
           - script: kubectl port-forward deployment/microservicio-spring 8080:8080
