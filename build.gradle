@@ -27,14 +27,13 @@ jacocoTestReport {
 }
 
 jacocoTestCoverageVerification {
-  dependsOn jacocoTestCoverageVerification
-	violationRules {
-		rule {
-		limit {
-			minimum = 0.50
-			}
-		}
-	}
+  violationRules {
+    rule {
+      limit {
+        minimum = 0.70
+      }
+    }
+  }
 }
 
 test {
