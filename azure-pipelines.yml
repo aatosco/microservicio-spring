@@ -7,129 +7,102 @@ trigger:
   - feature-ms-abrahamTosco-mensaje
 
 stages:
-#  - stage: Build_TestCobertura_PushDocker
-#    displayName: 'Build_TestCobertura_PushDocker Stage'
-#    jobs:
-#      - job: Build_TestCobertura_PushDocker_Job
-#        pool:
-#          vmImage: 'ubuntu-latest'
-#        steps:
-#
-#          - task: Gradle@3
-#            inputs:
-#              gradleWrapperFile: 'gradlew'
-#              tasks: 'build jacocoTestReport jacocoTestCoverageVerification'
-#              publishJUnitResults: true
-#              testResultsFiles: '**/TEST-*.xml'
-#              javaHomeOption: 'JDKVersion'
-#              sonarQubeRunAnalysis: false
-#              spotBugsAnalysis: false
-#            displayName: 'Compilacion/Build'
+  - stage: Build_TestCobertura_PushDocker
+    displayName: 'Build_TestCobertura_PushDocker Stage'
+    jobs:
+      - job: Build_TestCobertura_PushDocker_Job
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
 
-#          - task: PublishCodeCoverageResults@1
-#            inputs:
-#              codeCoverageTool: 'JaCoCo'
-#              summaryFileLocation: '$(System.DefaultWorkingDirectory)/build/reports/jacoco/test/jacocoTestReport.xml'
-#              pathToSources: '$(System.DefaultWorkingDirectory)/src/main/java/'
-#              reportDirectory: '$(System.DefaultWorkingDirectory)/build/reports/jacoco/test'
-#              failIfCoverageEmpty: true
-#            displayName: 'Resultado Cobertura Codigo'
+          - task: Gradle@3
+            inputs:
+              gradleWrapperFile: 'gradlew'
+              tasks: 'build jacocoTestReport jacocoTestCoverageVerification'
+              publishJUnitResults: true
+              testResultsFiles: '**/TEST-*.xml'
+              javaHomeOption: 'JDKVersion'
+              sonarQubeRunAnalysis: false
+              spotBugsAnalysis: false
+            displayName: 'Compilacion/Build'
 
-#          - task: SonarCloudPrepare@1
-#            inputs:
-#              SonarCloud: 'SonarCloud'
-#              organization: 'aatosco'
-#              projectKey: 'aatosco_microservicio-spring'
-#              projectName: 'microservicio-spring'
-#            displayName: 'SonarCloud Prepare'
+          - task: PublishCodeCoverageResults@1
+            inputs:
+              codeCoverageTool: 'JaCoCo'
+              summaryFileLocation: '$(System.DefaultWorkingDirectory)/build/reports/jacoco/test/jacocoTestReport.xml'
+              pathToSources: '$(System.DefaultWorkingDirectory)/src/main/java/'
+              reportDirectory: '$(System.DefaultWorkingDirectory)/build/reports/jacoco/test'
+              failIfCoverageEmpty: true
+            displayName: 'Resultado Cobertura Codigo'
+          - task: SonarCloudPrepare@1
+            inputs:
+              SonarCloud: 'SonarCloud'
+              organization: 'aatosco'
+              projectKey: 'aatosco_microservicio-spring'
+              projectName: 'microservicio-spring'
+            displayName: 'SonarCloud Prepare'
 
-#          - task: Gradle@3
-#            inputs:
-#              gradleWrapperFile: 'gradlew'
-#              tasks: 'sonarqube'
-#              publishJUnitResults: false
-#              javaHomeOption: 'JDKVersion'
-#              sonarQubeRunAnalysis: true
-#              sqGradlePluginVersionChoice: 'specify'
-#              sonarQubeGradlePluginVersion: '3.3'
-#              spotBugsAnalysis: false
-#            displayName: 'Gradle Sonarcloud'
+          - task: Gradle@3
+            inputs:
+              gradleWrapperFile: 'gradlew'
+              tasks: 'sonarqube'
+              publishJUnitResults: false
+              javaHomeOption: 'JDKVersion'
+              sonarQubeRunAnalysis: true
+              sqGradlePluginVersionChoice: 'specify'
+              sonarQubeGradlePluginVersion: '3.3'
+              spotBugsAnalysis: false
+            displayName: 'Gradle Sonarcloud'
 
-#          - task: Docker@2
-#            inputs:
-#              containerRegistry: 'DockerHub'
-#              command: 'login'
-#               tags: |
-#                 $(Build.BuildId)
-#                 latest
-#            displayName: 'Login_Docker'
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'DockerHub'
+              command: 'login'
+            displayName: 'Login_Docker'
 
-#          - task: Docker@2
-#            inputs:
-#              containerRegistry: 'DockerHub'
-#              repository: 'aatosco/microservicio-spring'
-#              command: 'build'
-#              Dockerfile: '**/Dockerfile'
-#               tags: |
-#                 $(Build.BuildId)
-#                 latest
-#            displayName: 'Build_Imagen_Docker'
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'DockerHub'
+              repository: 'aatosco/microservicio-spring'
+              command: 'build'
+              Dockerfile: '**/Dockerfile'
+               tags: |
+                 $(Build.BuildId)
+                 latest
+            displayName: 'Build_Imagen_Docker'
 
-#          - task: Docker@2
-#            inputs:
-#              containerRegistry: 'DockerHub'
-#              repository: 'aatosco/microservicio-spring'
-#              command: 'push'
-#            displayName: 'Push_Imagen_Docker'
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'DockerHub'
+              repository: 'aatosco/microservicio-spring'
+              command: 'push'
+               tags: |
+                 $(Build.BuildId)
+                 latest
+            displayName: 'Push_Imagen_Docker'
 
   - stage: Deploy
     displayName: 'Deploy Stage'
-#    dependsOn: Build_TestCobertura_PushDocker
+    dependsOn: Build_TestCobertura_PushDocker
     jobs:
       - job: Deploy_Job
         pool: 'Default'
         steps:
-#          - task: Kubernetes@1
-#            inputs:
-#              connectionType: 'None'
-#              command: 'create'
-#              arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:127'
-#            displayName: 'Kubernetes_Deployment'
-
-
-#            - task: PowerShell@2
-#              inputs:
-#                targetType: 'inline'
-#                script: |
-#                  Start-Process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
-#                workingDirectory: 'C:\Users\ROG-PC\Desktop\devops-fundamentos\microservicio-spring'
-#                pwsh: 'true'
-#              displayName: 'kubectl port-forward'
-#              continueOnError:  'true'
+          - task: Kubernetes@1
+            inputs:
+              connectionType: 'None'
+              command: 'create'
+              arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:latest'
+            displayName: 'Kubernetes_Deployment'
 
             - task: PowerShell@2
               inputs:
-                pwsh: false
                 targetType: 'inline'
-                script: Start-Process -FilePath "mspaint"
-
+                script: |
+                  Start-Process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8080:8080" -WindowStyle Hidden
+                workingDirectory: 'C:\Users\ROG-PC\Desktop\devops-fundamentos\microservicio-spring'
               displayName: 'kubectl port-forward'
-              continueOnError: true
-
-
-
-
-#  - stage: Port_Forward
-#    displayName: 'Port_Forward Stage'
-#    dependsOn: Deploy
-#    jobs:
-#      - job: Port_Forwar_Job
-#        pool: 'Default'
-#        steps:
-
-
-
-
+              continueOnError:  true
 
 
 #  - stage: JMeter
