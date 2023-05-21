@@ -99,7 +99,7 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                Start-Process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8080:8080" -WindowStyle Hidden
+                Start-Process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8080:8080"
             displayName: 'kubectl port-forward'
             continueOnError:  true
 
