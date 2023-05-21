@@ -99,7 +99,7 @@ stages:
                 workingDirectory: 'C:\Users\ROG-PC\Desktop\devops-fundamentos\microservicio-spring'
                 pwsh: 'true'
               displayName: 'kubectl port-forward'
-              continueOnError:  'false'
+              continueOnError:  'true'
 
 
 
