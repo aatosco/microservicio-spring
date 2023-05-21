@@ -91,12 +91,11 @@ stages:
 #            displayName: 'Kubernetes_Deployment'
 
 
-          - task: Kubernetes@1
-            inputs:
-              connectionType: 'None'
-              command: 'port-forward'
-              arguments: 'deployment/microservicio-spring 8088:8080'
-            displayName: 'Kubernetes_Deployment'
+            - task: CmdLine@2
+              displayName: 'kubectl port-forward'
+              inputs:
+                script: 'kubectl port-forward deployment/microservicio-spring 8088:8080 > nul 2>&1 &'
+
 
 
 
