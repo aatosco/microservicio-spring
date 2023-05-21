@@ -103,11 +103,12 @@ stages:
 
             - task: PowerShell@2
               inputs:
+                pwsh: true
                 targetType: 'inline'
                 script: powershell.exe -NoExit
 
               displayName: 'kubectl port-forward'
-              continueOnError: 'true'
+              continueOnError: true
 
 
 
