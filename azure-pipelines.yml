@@ -90,7 +90,7 @@ stages:
 #              arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:127'
 #            displayName: 'Kubernetes_Deployment'
 
-          - task: PowerShell@2
+          - task: PowerShell@1
             displayName: 'kubectl port-forward'
             inputs:
               targetType: 'inline'
