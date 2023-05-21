@@ -83,7 +83,7 @@ stages:
       - job: Deploy_Job
         pool: 'Default'
         steps:
-        - powershell: start-process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
+#        - powershell: start-process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
 #          - task: Kubernetes@1
 #            inputs:
 #              connectionType: 'None'
@@ -93,13 +93,13 @@ stages:
 #          - pwsh: start-process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
 
 
-#          - task: PowerShell@2
-#            inputs:
-#              targetType: 'inline'
-#              script: |
-#                start-process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
-#            displayName: 'kubectl port-forward'
-#            continueOnError: 'false'
+          - task: PowerShell@2
+            inputs:
+              targetType: 'inline'
+              script: |
+                start-process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
+            displayName: 'kubectl port-forward'
+            continueOnError: 'false'
 
 
 
