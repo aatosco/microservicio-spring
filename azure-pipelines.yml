@@ -89,8 +89,15 @@ stages:
               command: 'create'
               arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:127'
             displayName: 'Kubernetes_Deployment'
-          - pwsh: start-process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
-          
+#          - pwsh: start-process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
+
+          - task: PowerShell@2
+            inputs:
+              targetType: 'inline'
+              script: 'start-process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden'
+              workingDirectory: 'C:\Users\ROG-PC\Desktop\devops-fundamentos'
+
+
 #          - task: PowerShell@2
 #            inputs:
 #              targetType: 'inline'
