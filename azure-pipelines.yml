@@ -83,7 +83,7 @@ stages:
 
   - stage: Deploy
     displayName: 'Deploy Stage'
-#    dependsOn: Build_TestCobertura_PushDocker
+    dependsOn: Build_TestCobertura_PushDocker
     jobs:
       - job: Deploy_Job
         pool: 'Default'
