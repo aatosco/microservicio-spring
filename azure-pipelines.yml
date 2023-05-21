@@ -90,7 +90,7 @@ stages:
             displayName: 'Push_Imagen_Docker'
 
   - stage: Deploy
-    displayName: 'Deploy Stage'
+    displayName: 'Deploy/Test Stage'
     dependsOn: Build_TestCobertura_PushDocker
     jobs:
       - job: Deploy_Job
