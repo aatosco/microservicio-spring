@@ -93,11 +93,11 @@ stages:
 
 
 
-  - stage: Port-Forward
-    displayName: 'Port-Forward Stage'
+  - stage: Port_Forward
+    displayName: 'Port_Forward Stage'
     dependsOn: Deploy
     jobs:
-      - job: Port-Forwar_Job
+      - job: Port_Forwar_Job
 #        pool: 'Default'
         steps:
           - task: PowerShell@2
