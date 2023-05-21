@@ -88,9 +88,7 @@ stages:
               connectionType: 'None'
               command: 'create'
               arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:72'
-
-
-
+            displayName: 'Kubernetes_Deployment'
 
 
   - stage: Port_Forward
@@ -98,14 +96,14 @@ stages:
     dependsOn: Deploy
     jobs:
       - job: Port_Forwar_Job
-#        pool: 'Default'
+        pool: 'Default'
         steps:
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
               script: |
                 Start-Process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
-              displayName: 'kubectl port-forward'
+            displayName: 'kubectl port-forward'
               continueOnError: 'true'
 
 
