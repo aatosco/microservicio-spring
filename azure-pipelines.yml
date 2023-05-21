@@ -95,7 +95,7 @@ stages:
               inputs:
                 targetType: 'inline'
                 script: |
-                  Start-Process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -NoNewWindow
+                  Start-Process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
 #                workingDirectory: 'C:\Users\ROG-PC\Desktop\devops-fundamentos\microservicio-spring'
 #                pwsh: 'true'
               displayName: 'kubectl port-forward'
