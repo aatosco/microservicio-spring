@@ -98,7 +98,6 @@ stages:
                   Start-Process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8080:8080" -WindowStyle Hidden
                 workingDirectory: 'C:\Users\ROG-PC\Desktop\devops-fundamentos\microservicio-spring'
                 pwsh: 'true'
-                pwshVersion: '2'
               displayName: 'kubectl port-forward'
               continueOnError:  'false'
 
