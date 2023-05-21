@@ -109,5 +109,5 @@ stages:
     jobs:
       - job: JMeter_Job
         pool: 'Default'
-#        steps:
-#          - script: jmeter -n -t microservicio-spring.jmx -l resultados.jtl
+        steps:
+          - script: jmeter -n -t microservicio-spring.jmx -l resultados.jtl
