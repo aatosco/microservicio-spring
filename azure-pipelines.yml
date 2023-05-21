@@ -83,6 +83,7 @@ stages:
       - job: Deploy_Job
         pool: 'Default'
         steps:
+        - powershell: C:\Users\ROG-PC\Desktop\devops-fundamentos\microservicio-spring\forward.ps1
 #          - task: Kubernetes@1
 #            inputs:
 #              connectionType: 'None'
@@ -90,14 +91,6 @@ stages:
 #              arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:127'
 #            displayName: 'Kubernetes_Deployment'
 #          - pwsh: start-process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
-
-          - task: PowerShell@2
-            inputs:
-              targetType: 'inline'
-              script: |
-                start-process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
-            displayName: 'kubectl port-forward'
-            continueOnError: 'false'
 
 
 #          - task: PowerShell@2
