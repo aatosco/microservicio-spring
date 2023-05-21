@@ -95,27 +95,13 @@ stages:
               arguments: 'deployment microservicio-spring --image=aatosco/microservicio-spring:latest'
             displayName: 'Kubernetes_Deployment'
 
-#          - task: PowerShell@2
-#            inputs:
-#              targetType: 'inline'
-#              script: |
-#                Start-Process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8080:8080" -WindowStyle Hidden
-#            displayName: 'kubectl port-forward'
-#            continueOnError:  true
-
           - task: PowerShell@2
             inputs:
               targetType: 'inline'
               script: |
-                $arguments = "port-forward deployment/microservicio-spring 8080:8080" -WindowStyle Hidden
-                $processInfo = New-Object System.Diagnostics.ProcessStartInfo
-                $processInfo.FileName = "kubectl"
-                $processInfo.Arguments = $arguments
-                $processInfo.RedirectStandardOutput = $true
-                $processInfo.UseShellExecute = $false
-                $process = New-Object System.Diagnostics.Process
-                $process.StartInfo = $processInfo
-                $process.Start()
+                Start-Process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8080:8080" -WindowStyle Hidden
+            displayName: 'kubectl port-forward'
+            continueOnError:  true
 
   - stage: JMeter
     displayName: 'Jmeter Stage'
