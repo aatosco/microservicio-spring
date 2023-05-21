@@ -103,11 +103,8 @@ stages:
             displayName: 'kubectl port-forward'
             continueOnError:  true
 
-  - stage: JMeter
-    displayName: 'Jmeter Stage'
-    dependsOn: Deploy
-    jobs:
-      - job: JMeter_Job
-        pool: 'Default'
-        steps:
-          - script: jmeter -n -t microservicio-spring.jmx -l resultados.jtl
+          - task: CmdLine@2
+            inputs:
+                script: |
+                    jmeter -n -t microservicio-spring.jmx -l resultados_prueba.jtl
+            displayName: 'Pruebas JMeter'
