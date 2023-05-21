@@ -103,8 +103,8 @@ stages:
 
             - task: PowerShell@2
               inputs:
-                targetType: 'filePath'
-                filePath: 'C:\Users\ROG-PC\Desktop\devops-fundamentos\microservicio-spring\port_forward.ps1'
+                targetType: 'inline'
+                script: PowerShell.exe
               displayName: 'kubectl port-forward'
               continueOnError: 'true'
 
