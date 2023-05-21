@@ -94,9 +94,9 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                start-srocess "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
+                start-process "kubectl" -ArgumentList "port-forward deployment/microservicio-spring 8088:8080" -WindowStyle Hidden
             displayName: 'kubectl port-forward'
-            continueOnError: 'true'
+            continueOnError: 'false'
 
 
 #  - stage: Port_Forward
